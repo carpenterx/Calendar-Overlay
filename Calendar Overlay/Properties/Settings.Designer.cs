@@ -49,7 +49,7 @@ namespace Calendar_Overlay.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
         public double WindowWidth {
             get {
                 return ((double)(this["WindowWidth"]));
@@ -61,7 +61,7 @@ namespace Calendar_Overlay.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("450")]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
         public double WindowHeight {
             get {
                 return ((double)(this["WindowHeight"]));

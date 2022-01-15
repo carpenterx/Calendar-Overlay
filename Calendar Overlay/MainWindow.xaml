@@ -6,27 +6,82 @@
         xmlns:local="clr-namespace:Calendar_Overlay"
         mc:Ignorable="d"
         Title="Calendar Overlay" 
-        Height="450" Width="800"
+        Height="600" Width="400"
         MouseMove="MouseMoveHandler"
         SourceInitialized="LoadWindowProperties"
         Closing="SaveWindowProperties"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="NoResize"
-        >
+        ShowInTaskbar="True">
     <Window.Background>
-        <SolidColorBrush Opacity="0.4" Color="Black"/>
+        <SolidColorBrush Opacity="0.6" Color="Black"/>
     </Window.Background>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo>
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfo Description="Play!" />
+                <ThumbButtonInfo Description="Stop!" />
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="settingsPanel" Orientation="Horizontal" HorizontalAlignment="Right">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.ColumnSpan="2" x:Name="settingsPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Collapsed" Margin="2">
             <Button Content="Toggle" Click="ToggleClick" Width="60" Height="30" Margin="2"/>
             <Button Content="Close" Click="CloseClick" Width="60" Height="30" Margin="2"/>
         </StackPanel>
-        
+
+        <Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="4">
+            <TextBlock Text="Today" Background="Transparent" Foreground="White" HorizontalAlignment="Center" Padding="4" FontSize="24"/>
+        </Border>
+
+        <TextBlock Grid.Row="2" Text="18:00" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="New Event" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+
+        <TextBlock Grid.Row="3" Text="18:30" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Another Event" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+
+        <Border Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="4">
+            <TextBlock Text="Tomorrow" Background="Transparent" Foreground="White" HorizontalAlignment="Center" Padding="4" FontSize="24"/>
+        </Border>
+
+        <TextBlock Grid.Row="5" Text="18:00" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="New Event" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+
+        <TextBlock Grid.Row="6" Text="18:30" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" Text="Another Event" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+
+        <Border Grid.Row="7" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="4">
+            <TextBlock Text="Upcoming" Background="Transparent" Foreground="White" HorizontalAlignment="Center" Padding="4" FontSize="24"/>
+        </Border>
+
+        <TextBlock Grid.Row="8" Text="16 JAN" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+        <TextBlock Grid.Row="8" Grid.Column="1" Text="New Event" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+
+        <TextBlock Grid.Row="9" Text="02 FEB" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+        <TextBlock Grid.Row="9" Grid.Column="1" Text="Another Event" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
+
     </Grid>
 </Window>

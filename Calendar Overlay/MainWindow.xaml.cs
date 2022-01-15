@@ -28,7 +28,7 @@ namespace Calendar_Overlay
             }
             else
             {
-                settingsPanel.Visibility = Visibility.Hidden;
+                settingsPanel.Visibility = Visibility.Collapsed;
             }
         }
 
