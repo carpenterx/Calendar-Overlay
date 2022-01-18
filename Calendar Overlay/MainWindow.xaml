@@ -69,6 +69,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel x:Name="settingsPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" Margin="2">
+                <Button Content="Add" Click="AddClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
                 <Button Content="Toggle" Click="ToggleClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
                 <Button Content="Close" Click="CloseClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
             </StackPanel>

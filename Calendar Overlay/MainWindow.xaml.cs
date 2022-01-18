@@ -1,4 +1,5 @@
 ﻿using Calendar_Overlay.Models;
+using Calendar_Overlay.Windows;
 using System;
 using System.Windows;
 using System.Windows.Shell;
@@ -61,6 +62,16 @@ namespace Calendar_Overlay
             WindowChrome chrome = new();
             chrome.ResizeBorderThickness = new Thickness(4);
             WindowChrome.SetWindowChrome(Application.Current.MainWindow, chrome);
+        }
+
+        private void AddClick(object sender, RoutedEventArgs e)
+        {
+            EventWindow eventWindow = new();
+
+            if (eventWindow.ShowDialog() == true)
+            {
+
+            }
         }
     }
 }
