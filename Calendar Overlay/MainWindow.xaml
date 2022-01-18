@@ -44,8 +44,8 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.ColumnSpan="2" x:Name="settingsPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Collapsed" Margin="2">
