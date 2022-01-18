@@ -61,20 +61,21 @@
               UpcomingTemplate="{StaticResource UpcomingTemplate}"
               TitleTemplate="{StaticResource TitleTemplate}" />
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
+    <Border BorderThickness="1" BorderBrush="Teal">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
 
-        <StackPanel x:Name="settingsPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" Margin="2">
-            <Button Content="Toggle" Click="ToggleClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
-            <Button Content="Close" Click="CloseClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
-        </StackPanel>
+            <StackPanel x:Name="settingsPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" Margin="2">
+                <Button Content="Toggle" Click="ToggleClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
+                <Button Content="Close" Click="CloseClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
+            </StackPanel>
 
-        <ListView x:Name="eventsListView" Grid.Row="1" Background="Transparent" ItemsSource="{Binding}" ItemTemplateSelector="{StaticResource templateSelector}"/>
+            <ListView x:Name="eventsListView" Grid.Row="1" Background="Transparent" ItemsSource="{Binding}" ItemTemplateSelector="{StaticResource templateSelector}" BorderThickness="0"/>
 
-        <!--<Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="4">
+            <!--<Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="4">
             <TextBlock Text="Today" Background="Transparent" Foreground="White" HorizontalAlignment="Center" Padding="4" FontSize="24"/>
         </Border>
 
@@ -104,5 +105,6 @@
         <TextBlock Grid.Row="9" Text="02 FEB" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>
         <TextBlock Grid.Row="9" Grid.Column="1" Text="Another Event" Background="Transparent" Foreground="White" Padding="4" FontSize="24"/>-->
 
-    </Grid>
+        </Grid>
+    </Border>
 </Window>
