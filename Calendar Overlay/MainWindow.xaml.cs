@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calendar_Overlay.Models;
+using System;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -12,6 +13,8 @@ namespace Calendar_Overlay
         public MainWindow()
         {
             InitializeComponent();
+
+            eventsListView.ItemsSource = EventsGenerator.GenerateTestEvents();
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)
@@ -22,13 +25,13 @@ namespace Calendar_Overlay
         private void MouseMoveHandler(object sender, System.Windows.Input.MouseEventArgs e)
         {
             double yPosition = e.GetPosition(this).Y;
-            if (yPosition < 90)
+            if (yPosition < 40)
             {
                 settingsPanel.Visibility = Visibility.Visible;
             }
             else
             {
-                settingsPanel.Visibility = Visibility.Collapsed;
+                settingsPanel.Visibility = Visibility.Hidden;
             }
         }
 
