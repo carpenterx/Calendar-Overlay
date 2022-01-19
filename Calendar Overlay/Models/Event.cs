@@ -6,13 +6,18 @@ namespace Calendar_Overlay.Models
     {
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndtDate { get; set; }
+        public TimeSpan Duration { get; set; }
 
-        public Event(string name, DateTime startDate, DateTime endDate)
+        public Event()
+        {
+
+        }
+
+        public Event(string name, DateTime startDate, TimeSpan duration)
         {
             Name = name;
             StartDate = startDate;
-            EndtDate = endDate;
+            Duration = duration;
         }
     }
 }

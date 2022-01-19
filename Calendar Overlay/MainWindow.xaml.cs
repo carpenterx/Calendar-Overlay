@@ -1,6 +1,7 @@
 ﻿using Calendar_Overlay.Models;
 using Calendar_Overlay.Windows;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -11,11 +12,13 @@ namespace Calendar_Overlay
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ObservableCollection<object> events = new();
         public MainWindow()
         {
             InitializeComponent();
 
-            eventsListView.ItemsSource = EventsGenerator.GenerateTestEvents();
+            events = EventsGenerator.GenerateTestEvents();
+            eventsListView.ItemsSource = events;
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)
@@ -70,7 +73,7 @@ namespace Calendar_Overlay
 
             if (eventWindow.ShowDialog() == true)
             {
-
+                events.Add(eventWindow.Event);
             }
         }
     }
