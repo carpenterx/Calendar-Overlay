@@ -76,5 +76,18 @@ namespace Calendar_Overlay
                 events.Add(eventWindow.Event);
             }
         }
+
+        private void EditClick(object sender, RoutedEventArgs e)
+        {
+            if (eventsListView.SelectedItem is Event eventToEdit)
+            {
+                EventWindow eventWindow = new(eventToEdit);
+
+                if (eventWindow.ShowDialog() == true)
+                {
+                    events[eventsListView.SelectedIndex] = eventWindow.Event;
+                }
+            }
+        }
     }
 }

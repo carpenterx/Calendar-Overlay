@@ -1,5 +1,6 @@
 ﻿using Calendar_Overlay.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -33,8 +34,14 @@ namespace Calendar_Overlay.Windows
             addBtn.Content = "Edit";
 
             Event = eventToEdit;
-
             DataContext = Event;
+
+            nameTxt.Text = Event.Name;
+            startDate.SelectedDate = Event.StartDate;
+            startHour.SelectedValue = Event.StartDate.Hour;
+            startMinutes.SelectedValue = Event.StartDate.Minute;
+            endHour.SelectedValue = Event.Duration.Hours;
+            endMinutes.SelectedValue = Event.Duration.Minutes;
         }
 
         private void PopulateHourComboBoxes()
