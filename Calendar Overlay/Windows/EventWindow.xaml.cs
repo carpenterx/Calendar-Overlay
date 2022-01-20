@@ -40,8 +40,9 @@ namespace Calendar_Overlay.Windows
             startDate.SelectedDate = Event.StartDate;
             startHour.SelectedValue = Event.StartDate.Hour;
             startMinutes.SelectedValue = Event.StartDate.Minute;
-            endHour.SelectedValue = Event.Duration.Hours;
-            endMinutes.SelectedValue = Event.Duration.Minutes;
+            DateTime endDateTime = Event.StartDate.Add(Event.Duration);
+            endHour.SelectedValue = endDateTime.Hour;
+            endMinutes.SelectedValue = endDateTime.Minute;
         }
 
         private void PopulateHourComboBoxes()
@@ -79,11 +80,16 @@ namespace Calendar_Overlay.Windows
             if (startDate.SelectedDate is DateTime start)
             {
                 DateTime startingDate = start.Add(new TimeSpan((int)startHour.SelectedValue, (int)startMinutes.SelectedValue, 0));
-                TimeSpan duration = new((int)endHour.SelectedValue, (int)endMinutes.SelectedValue, 0);
+                TimeSpan duration = GetDuration((int)startHour.SelectedValue, (int)startMinutes.SelectedValue, (int)endHour.SelectedValue, (int)endMinutes.SelectedValue);
                 Event = new(nameTxt.Text, startingDate, duration);
                 GetWindow(this).DialogResult = true;
                 GetWindow(this).Close();
             }
+        }
+
+        private static TimeSpan GetDuration(int startH, int startMin, int endH, int endMin)
+        {
+            return TimeSpan.FromMinutes( ((endH - startH) * 60) + (endMin - startMin));
         }
     }
 }

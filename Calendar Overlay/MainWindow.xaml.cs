@@ -1,7 +1,9 @@
 ﻿using Calendar_Overlay.Models;
 using Calendar_Overlay.Windows;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -13,6 +15,10 @@ namespace Calendar_Overlay
     public partial class MainWindow : Window
     {
         private ObservableCollection<object> events = new();
+
+        private const string EVENTS_FILE_NAME = "events.json";
+        private const string APPLICATION_FOLDER = "Calendar Overlay";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,7 +53,14 @@ namespace Calendar_Overlay
             this.Width = Properties.Settings.Default.WindowWidth;
         }
 
-        private void SaveWindowProperties(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ClosingHandler(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveWindowProperties();
+
+            SaveEvents();
+        }
+
+        private void SaveWindowProperties()
         {
             Properties.Settings.Default.WindowTop = this.Top;
             Properties.Settings.Default.WindowLeft = this.Left;
@@ -55,6 +68,18 @@ namespace Calendar_Overlay
             Properties.Settings.Default.WindowWidth = this.Width;
 
             Properties.Settings.Default.Save();
+        }
+
+        private void SaveEvents()
+        {
+            string applicationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APPLICATION_FOLDER);
+            if (!Directory.Exists(applicationDirectory))
+            {
+                Directory.CreateDirectory(applicationDirectory);
+            }
+            string json = JsonConvert.SerializeObject(events, Formatting.Indented);
+            string eventsPath = Path.Combine(applicationDirectory, EVENTS_FILE_NAME);
+            File.WriteAllText(eventsPath, json);
         }
 
         private void ToggleClick(object sender, RoutedEventArgs e)

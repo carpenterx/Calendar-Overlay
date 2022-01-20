@@ -10,7 +10,7 @@
         Height="600" Width="400"
         MouseMove="MouseMoveHandler"
         SourceInitialized="LoadWindowProperties"
-        Closing="SaveWindowProperties"
+        Closing="ClosingHandler"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="NoResize"
