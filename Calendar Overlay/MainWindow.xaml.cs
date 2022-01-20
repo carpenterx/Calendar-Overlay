@@ -23,7 +23,8 @@ namespace Calendar_Overlay
         {
             InitializeComponent();
 
-            events = EventsGenerator.GenerateTestEvents();
+            //events = EventsGenerator.GenerateTestEvents();
+            LoadEvents();
             eventsListView.ItemsSource = events;
         }
 
@@ -120,6 +121,19 @@ namespace Calendar_Overlay
             if (eventsListView.SelectedItem is Event eventToDelete)
             {
                 events.Remove(eventToDelete);
+            }
+        }
+
+        public void LoadEvents()
+        {
+            string pillsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APPLICATION_FOLDER, EVENTS_FILE_NAME);
+
+            if (File.Exists(pillsPath))
+            {
+                if (JsonConvert.DeserializeObject<ObservableCollection<object>>(File.ReadAllText(pillsPath)) is ObservableCollection<object> loadedEvents)
+                {
+                    events = loadedEvents;
+                }
             }
         }
     }
