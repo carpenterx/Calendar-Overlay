@@ -2,8 +2,10 @@
 using Calendar_Overlay.Windows;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -78,9 +80,15 @@ namespace Calendar_Overlay
             {
                 Directory.CreateDirectory(applicationDirectory);
             }
-            string json = JsonConvert.SerializeObject(events, Formatting.Indented);
+            List<Event> eventsList = GetEvents();
+            string json = JsonConvert.SerializeObject(eventsList, Formatting.Indented);
             string eventsPath = Path.Combine(applicationDirectory, EVENTS_FILE_NAME);
             File.WriteAllText(eventsPath, json);
+        }
+
+        public List<Event> GetEvents()
+        {
+            return events.OfType<Event>().ToList();
         }
 
         private void ToggleClick(object sender, RoutedEventArgs e)
@@ -130,9 +138,9 @@ namespace Calendar_Overlay
 
             if (File.Exists(pillsPath))
             {
-                if (JsonConvert.DeserializeObject<ObservableCollection<object>>(File.ReadAllText(pillsPath)) is ObservableCollection<object> loadedEvents)
+                if (JsonConvert.DeserializeObject<ObservableCollection<Event>>(File.ReadAllText(pillsPath)) is ObservableCollection<Event> loadedEvents)
                 {
-                    events = loadedEvents;
+                    events = new ObservableCollection<object>(loadedEvents);
                 }
             }
         }
