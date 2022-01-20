@@ -19,8 +19,8 @@ namespace Calendar_Overlay.Models
             }
             else if(item is Event ev)
             {
-                DateTime today = new(2022, 1, 17);
-                if ((ev.StartDate.Date - today).TotalDays > 2)
+                //DateTime today = new(2022, 1, 17);
+                if ((ev.StartDate.Date - DateTime.Today).TotalDays > 2)
                 {
                     return UpcomingTemplate;
                 }

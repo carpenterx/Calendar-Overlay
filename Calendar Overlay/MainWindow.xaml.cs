@@ -167,18 +167,18 @@ namespace Calendar_Overlay
 
         private static bool IsToday(object obj)
         {
-            DateTime today = new(2022, 1, 17);
+            //DateTime today = new(2022, 1, 17);
             if (obj is Event e)
             {
-                return e.StartDate.Date == today;
+                return e.StartDate.Date == DateTime.Today;
             }
             return false;
         }
 
         private static bool IsTomorrow(object obj)
         {
-            DateTime today = new(2022, 1, 17);
-            DateTime tomorrow = today.AddDays(1);
+            //DateTime today = new(2022, 1, 17);
+            DateTime tomorrow = DateTime.Today.AddDays(1);
             if (obj is Event e)
             {
                 return e.StartDate.Date == tomorrow;
@@ -188,10 +188,10 @@ namespace Calendar_Overlay
 
         private static bool IsUpcoming(object obj)
         {
-            DateTime today = new(2022, 1, 17);
+            //DateTime today = new(2022, 1, 17);
             if (obj is Event e)
             {
-                return (e.StartDate.Date - today).TotalDays > 2;
+                return (e.StartDate.Date - DateTime.Today).TotalDays > 2;
             }
             return false;
         }
