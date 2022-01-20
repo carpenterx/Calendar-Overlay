@@ -89,5 +89,13 @@ namespace Calendar_Overlay
                 }
             }
         }
+
+        private void DeleteClick(object sender, RoutedEventArgs e)
+        {
+            if (eventsListView.SelectedItem is Event eventToDelete)
+            {
+                events.Remove(eventToDelete);
+            }
+        }
     }
 }
