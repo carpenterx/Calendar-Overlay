@@ -86,7 +86,7 @@ namespace Calendar_Overlay
             File.WriteAllText(eventsPath, json);
         }
 
-        public List<Event> GetEvents()
+        private List<Event> GetEvents()
         {
             return events.OfType<Event>().ToList();
         }
@@ -132,7 +132,7 @@ namespace Calendar_Overlay
             }
         }
 
-        public void LoadEvents()
+        private void LoadEvents()
         {
             string pillsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APPLICATION_FOLDER, EVENTS_FILE_NAME);
 
@@ -141,8 +141,59 @@ namespace Calendar_Overlay
                 if (JsonConvert.DeserializeObject<ObservableCollection<Event>>(File.ReadAllText(pillsPath)) is ObservableCollection<Event> loadedEvents)
                 {
                     events = new ObservableCollection<object>(loadedEvents);
+                    InsertHeaders();
                 }
             }
+        }
+
+        private void InsertHeaders()
+        {
+            int todayIndex = events.ToList().FindIndex(IsToday);
+            if (todayIndex != -1)
+            {
+                events.Insert(todayIndex, "Today");
+            }
+            int tomorrowIndex = events.ToList().FindIndex(IsTomorrow);
+            if (tomorrowIndex != -1)
+            {
+                events.Insert(tomorrowIndex, "Tomorrow");
+            }
+            int upcomingIndex = events.ToList().FindIndex(IsUpcoming);
+            if (upcomingIndex != -1)
+            {
+                events.Insert(upcomingIndex, "Upcoming");
+            }
+        }
+
+        private static bool IsToday(object obj)
+        {
+            DateTime today = new(2022, 1, 17);
+            if (obj is Event e)
+            {
+                return e.StartDate.Date == today;
+            }
+            return false;
+        }
+
+        private static bool IsTomorrow(object obj)
+        {
+            DateTime today = new(2022, 1, 17);
+            DateTime tomorrow = today.AddDays(1);
+            if (obj is Event e)
+            {
+                return e.StartDate.Date == tomorrow;
+            }
+            return false;
+        }
+
+        private static bool IsUpcoming(object obj)
+        {
+            DateTime today = new(2022, 1, 17);
+            if (obj is Event e)
+            {
+                return (e.StartDate.Date - today).TotalDays > 2;
+            }
+            return false;
         }
     }
 }
