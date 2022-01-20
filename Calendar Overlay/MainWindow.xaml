@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calendar_Overlay"
-        xmlns:models="clr-namespace:Calendar_Overlay.Models"
+        xmlns:models="clr-namespace:Calendar_Overlay.Models" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="Calendar Overlay" 
         Height="600" Width="400"
@@ -69,11 +69,21 @@
             </Grid.RowDefinitions>
 
             <StackPanel x:Name="settingsPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" Margin="2">
-                <Button Content="Add" Click="AddClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
-                <Button Content="Edit" Click="EditClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
-                <Button Content="Delete" Click="DeleteClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
-                <Button Content="Toggle" Click="ToggleClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
-                <Button Content="Close" Click="CloseClick" Background="Transparent" Foreground="White" Width="60" Height="30" Margin="2"/>
+                <Button ToolTip="Add" Click="AddClick" Background="Transparent" Foreground="White" Width="30" Height="30" Margin="2">
+                    <iconPacks:PackIconMaterial Kind="Plus" />
+                </Button>
+                <Button ToolTip="Edit" Click="EditClick" Background="Transparent" Foreground="White" Width="30" Height="30" Margin="2">
+                    <iconPacks:PackIconMaterial Kind="Pencil" />
+                </Button>
+                <Button ToolTip="Delete" Click="DeleteClick" Background="Transparent" Foreground="White" Width="30" Height="30" Margin="2">
+                    <iconPacks:PackIconMaterial Kind="Delete" />
+                </Button>
+                <Button ToolTip="Toggle" Click="ToggleClick" Background="Transparent" Foreground="White" Width="30" Height="30" Margin="2">
+                    <iconPacks:PackIconMaterial Kind="MoveResize" />
+                </Button>
+                <Button ToolTip="Close" Click="CloseClick" Background="Transparent" Foreground="White" Width="30" Height="30" Margin="2">
+                    <iconPacks:PackIconMaterial Kind="Close" />
+                </Button>
             </StackPanel>
 
             <ListView x:Name="eventsListView" Grid.Row="1" Background="Transparent" ItemsSource="{Binding}" ItemTemplateSelector="{StaticResource templateSelector}" BorderThickness="0"/>
