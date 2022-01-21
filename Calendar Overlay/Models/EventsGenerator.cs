@@ -11,12 +11,9 @@ namespace Calendar_Overlay.Models
 
             events.Add("Today");
 
-            DateTime today = new DateTime(2022, 1, 17);
-            //DateTime today1800 = new DateTime(2022, 1, 17, 18, 0, 0);
+            DateTime today = DateTime.Today;
             DateTime today1800 = today.Add(new TimeSpan(18, 0, 0));
-            //DateTime today1830 = new DateTime(2022, 1, 17, 18, 30, 0);
             DateTime today1830 = today.Add(new TimeSpan(18, 30, 0));
-            //DateTime today1900 = new DateTime(2022, 1, 17, 19, 0, 0);
             DateTime today1900 = today.Add(new TimeSpan(19, 0, 0));
 
             Event event1 = new("First Event", today1800, today1830 - today1800);
@@ -26,7 +23,6 @@ namespace Calendar_Overlay.Models
 
             events.Add("Tomorrow");
 
-            //DateTime tomorrow = new DateTime(today.Year, today.Month, today.Day + 1);
             DateTime tomorrow = today.AddDays(1);
 
             DateTime tomorrow1500 = tomorrow.Add(new TimeSpan(15, 0, 0));

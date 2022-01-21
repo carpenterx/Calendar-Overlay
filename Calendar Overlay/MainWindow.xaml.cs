@@ -134,13 +134,29 @@ namespace Calendar_Overlay
 
         private void LoadEvents()
         {
-            string pillsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APPLICATION_FOLDER, EVENTS_FILE_NAME);
+            string eventsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APPLICATION_FOLDER, EVENTS_FILE_NAME);
 
-            if (File.Exists(pillsPath))
+            if (File.Exists(eventsPath))
             {
-                if (JsonConvert.DeserializeObject<ObservableCollection<Event>>(File.ReadAllText(pillsPath)) is ObservableCollection<Event> loadedEvents)
+                if (JsonConvert.DeserializeObject<ObservableCollection<Event>>(File.ReadAllText(eventsPath)) is ObservableCollection<Event> loadedEvents)
                 {
-                    events = new ObservableCollection<object>(loadedEvents);
+                    List<Event> eventsList = loadedEvents.ToList();
+                    eventsList.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
+                    List<Event> eventsToArchive = new();
+                    List<Event> currentEvents = new();
+                    DateTime today = DateTime.Today;
+                    for (int i = 0; i < eventsList.Count; i++)
+                    {
+                        if (eventsList[i].StartDate < today)
+                        {
+                            eventsToArchive.Add(eventsList[i]);
+                        }
+                        else
+                        {
+                            currentEvents.Add(eventsList[i]);
+                        }
+                    }
+                    events = new ObservableCollection<object>(currentEvents);
                     InsertHeaders();
                 }
             }
@@ -167,7 +183,6 @@ namespace Calendar_Overlay
 
         private static bool IsToday(object obj)
         {
-            //DateTime today = new(2022, 1, 17);
             if (obj is Event e)
             {
                 return e.StartDate.Date == DateTime.Today;
@@ -177,7 +192,6 @@ namespace Calendar_Overlay
 
         private static bool IsTomorrow(object obj)
         {
-            //DateTime today = new(2022, 1, 17);
             DateTime tomorrow = DateTime.Today.AddDays(1);
             if (obj is Event e)
             {
@@ -188,7 +202,6 @@ namespace Calendar_Overlay
 
         private static bool IsUpcoming(object obj)
         {
-            //DateTime today = new(2022, 1, 17);
             if (obj is Event e)
             {
                 return (e.StartDate.Date - DateTime.Today).TotalDays > 2;
