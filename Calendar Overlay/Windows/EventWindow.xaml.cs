@@ -18,6 +18,7 @@ namespace Calendar_Overlay.Windows
 
             PopulateHourComboBoxes();
             PopulateMinutesComboBoxes();
+            SelectComboboxValues();
 
             DataContext = Event;
         }
@@ -60,6 +61,14 @@ namespace Calendar_Overlay.Windows
                 startMinutes.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
                 endMinutes.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
             }
+        }
+
+        private void SelectComboboxValues()
+        {
+            startHour.SelectedIndex = 0;
+            endHour.SelectedIndex = 0;
+            startMinutes.SelectedIndex = 0;
+            endMinutes.SelectedIndex = 0;
         }
 
         private static string GetPaddedString(int number)

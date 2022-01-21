@@ -83,16 +83,16 @@ namespace Calendar_Overlay
             {
                 Directory.CreateDirectory(applicationDirectory);
             }
-            List<Event> eventsList = GetEvents();
-            string json = JsonConvert.SerializeObject(eventsList, Formatting.Indented);
+            //List<Event> eventsList = GetEvents();
+            string json = JsonConvert.SerializeObject(currentEvents, Formatting.Indented);
             string eventsPath = Path.Combine(applicationDirectory, EVENTS_FILE_NAME);
             File.WriteAllText(eventsPath, json);
         }
 
-        private List<Event> GetEvents()
+        /*private List<Event> GetEvents()
         {
             return events.OfType<Event>().ToList();
-        }
+        }*/
 
         private void ToggleClick(object sender, RoutedEventArgs e)
         {
@@ -110,10 +110,18 @@ namespace Calendar_Overlay
 
             if (eventWindow.ShowDialog() == true)
             {
-                currentEvents.Add(eventWindow.Event);
-                currentEvents.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
-                events = new ObservableCollection<object>(currentEvents);
-                InsertHeaders();
+                if (eventWindow.Event.StartDate < DateTime.Today)
+                {
+                    eventsToArchive.Add(eventWindow.Event);
+                    UpdateArchive();
+                }
+                else
+                {
+                    currentEvents.Add(eventWindow.Event);
+                    currentEvents.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
+                    events = new ObservableCollection<object>(currentEvents);
+                    InsertHeaders();
+                }
             }
         }
 
@@ -126,10 +134,21 @@ namespace Calendar_Overlay
                 if (eventWindow.ShowDialog() == true)
                 {
                     int editedIndex = currentEvents.IndexOf(eventToEdit);
-                    currentEvents[editedIndex] = eventWindow.Event;
-                    currentEvents.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
-                    events = new ObservableCollection<object>(currentEvents);
-                    InsertHeaders();
+                    if (eventWindow.Event.StartDate < DateTime.Today)
+                    {
+                        currentEvents.RemoveAt(editedIndex);
+                        events = new ObservableCollection<object>(currentEvents);
+                        InsertHeaders();
+                        eventsToArchive.Add(eventWindow.Event);
+                        UpdateArchive();
+                    }
+                    else
+                    {
+                        currentEvents[editedIndex] = eventWindow.Event;
+                        currentEvents.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
+                        events = new ObservableCollection<object>(currentEvents);
+                        InsertHeaders();
+                    }
                 }
             }
         }
@@ -157,6 +176,8 @@ namespace Calendar_Overlay
                     eventsList.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
                     
                     DateTime today = DateTime.Today;
+                    eventsToArchive = new();
+                    currentEvents = new();
                     for (int i = 0; i < eventsList.Count; i++)
                     {
                         if (eventsList[i].StartDate < today)
@@ -168,10 +189,41 @@ namespace Calendar_Overlay
                             currentEvents.Add(eventsList[i]);
                         }
                     }
+                    UpdateArchive();
                     events = new ObservableCollection<object>(currentEvents);
                     InsertHeaders();
                 }
             }
+        }
+
+        private void UpdateArchive()
+        {
+            string archivePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APPLICATION_FOLDER, ARCHIVE_FILE_NAME);
+
+            List<Event> archiveEvents = new();
+
+            if (File.Exists(archivePath))
+            {
+                if (JsonConvert.DeserializeObject<ObservableCollection<Event>>(File.ReadAllText(archivePath)) is ObservableCollection<Event> loadedArchive)
+                {
+                    archiveEvents.AddRange(loadedArchive);
+                }
+            }
+
+            archiveEvents.AddRange(eventsToArchive);
+            SaveArchive(archiveEvents);
+        }
+
+        private static void SaveArchive(List<Event> archiveEvents)
+        {
+            string applicationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APPLICATION_FOLDER);
+            if (!Directory.Exists(applicationDirectory))
+            {
+                Directory.CreateDirectory(applicationDirectory);
+            }
+            string json = JsonConvert.SerializeObject(archiveEvents, Formatting.Indented);
+            string archivePath = Path.Combine(applicationDirectory, ARCHIVE_FILE_NAME);
+            File.WriteAllText(archivePath, json);
         }
 
         private void InsertHeaders()
