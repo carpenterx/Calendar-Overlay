@@ -19,7 +19,7 @@ namespace Calendar_Overlay.Models
             }
             else if(item is Event ev)
             {
-                if ((ev.StartDate.Date - DateTime.Today).TotalDays > 2)
+                if ((ev.StartDate.Date - DateTime.Today).TotalDays >= 2)
                 {
                     return UpcomingTemplate;
                 }

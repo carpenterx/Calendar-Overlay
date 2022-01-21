@@ -23,6 +23,7 @@ namespace Calendar_Overlay
         private const string EVENTS_FILE_NAME = "events.json";
         private const string ARCHIVE_FILE_NAME = "archive.json";
         private const string APPLICATION_FOLDER = "Calendar Overlay";
+        private const int MAX_EVENTS_DISPLAYED = 14;
 
         public MainWindow()
         {
@@ -30,7 +31,7 @@ namespace Calendar_Overlay
 
             //events = EventsGenerator.GenerateTestEvents();
             LoadEvents();
-            eventsListView.ItemsSource = events;
+            eventsListView.ItemsSource = events.Take(MAX_EVENTS_DISPLAYED);
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)
@@ -243,7 +244,7 @@ namespace Calendar_Overlay
             {
                 events.Insert(upcomingIndex, "Upcoming");
             }
-            eventsListView.ItemsSource = events;
+            eventsListView.ItemsSource = events.Take(MAX_EVENTS_DISPLAYED);
         }
 
         private static bool IsToday(object obj)
@@ -269,7 +270,7 @@ namespace Calendar_Overlay
         {
             if (obj is Event e)
             {
-                return (e.StartDate.Date - DateTime.Today).TotalDays > 2;
+                return (e.StartDate.Date - DateTime.Today).TotalDays >= 2;
             }
             return false;
         }
