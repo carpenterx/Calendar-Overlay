@@ -17,8 +17,11 @@ namespace Calendar_Overlay
     public partial class MainWindow : Window
     {
         private ObservableCollection<object> events = new();
+        private List<Event> eventsToArchive = new();
+        private List<Event> currentEvents = new();
 
         private const string EVENTS_FILE_NAME = "events.json";
+        private const string ARCHIVE_FILE_NAME = "archive.json";
         private const string APPLICATION_FOLDER = "Calendar Overlay";
 
         public MainWindow()
@@ -107,7 +110,10 @@ namespace Calendar_Overlay
 
             if (eventWindow.ShowDialog() == true)
             {
-                events.Add(eventWindow.Event);
+                currentEvents.Add(eventWindow.Event);
+                currentEvents.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
+                events = new ObservableCollection<object>(currentEvents);
+                InsertHeaders();
             }
         }
 
@@ -119,7 +125,11 @@ namespace Calendar_Overlay
 
                 if (eventWindow.ShowDialog() == true)
                 {
-                    events[eventsListView.SelectedIndex] = eventWindow.Event;
+                    int editedIndex = currentEvents.IndexOf(eventToEdit);
+                    currentEvents[editedIndex] = eventWindow.Event;
+                    currentEvents.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
+                    events = new ObservableCollection<object>(currentEvents);
+                    InsertHeaders();
                 }
             }
         }
@@ -128,7 +138,10 @@ namespace Calendar_Overlay
         {
             if (eventsListView.SelectedItem is Event eventToDelete)
             {
-                events.Remove(eventToDelete);
+                int deletedIndex = currentEvents.IndexOf(eventToDelete);
+                currentEvents.RemoveAt(deletedIndex);
+                events = new ObservableCollection<object>(currentEvents);
+                InsertHeaders();
             }
         }
 
@@ -142,8 +155,7 @@ namespace Calendar_Overlay
                 {
                     List<Event> eventsList = loadedEvents.ToList();
                     eventsList.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
-                    List<Event> eventsToArchive = new();
-                    List<Event> currentEvents = new();
+                    
                     DateTime today = DateTime.Today;
                     for (int i = 0; i < eventsList.Count; i++)
                     {
@@ -179,6 +191,7 @@ namespace Calendar_Overlay
             {
                 events.Insert(upcomingIndex, "Upcoming");
             }
+            eventsListView.ItemsSource = events;
         }
 
         private static bool IsToday(object obj)
