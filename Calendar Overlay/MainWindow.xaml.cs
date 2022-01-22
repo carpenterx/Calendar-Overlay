@@ -42,7 +42,7 @@ namespace Calendar_Overlay
         private void MouseMoveHandler(object sender, System.Windows.Input.MouseEventArgs e)
         {
             double yPosition = e.GetPosition(this).Y;
-            if (yPosition < 40)
+            if (yPosition < settingsPanel.ActualHeight)
             {
                 settingsPanel.Visibility = Visibility.Visible;
             }
@@ -273,6 +273,21 @@ namespace Calendar_Overlay
                 return (e.StartDate.Date - DateTime.Today).TotalDays >= 2;
             }
             return false;
+        }
+
+        private void SettingsClick(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new();
+
+            if (settingsWindow.ShowDialog() == true)
+            {
+
+            }
+        }
+
+        private void MouseLeaveHandler(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            settingsPanel.Visibility = Visibility.Hidden;
         }
     }
 }
