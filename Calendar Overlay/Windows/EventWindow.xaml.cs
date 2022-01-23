@@ -16,6 +16,7 @@ namespace Calendar_Overlay.Windows
         {
             InitializeComponent();
 
+            PopulateDayComboBoxes();
             PopulateHourComboBoxes();
             PopulateMinutesComboBoxes();
             SelectComboboxValues();
@@ -27,6 +28,7 @@ namespace Calendar_Overlay.Windows
         {
             InitializeComponent();
 
+            PopulateDayComboBoxes();
             PopulateHourComboBoxes();
             PopulateMinutesComboBoxes();
 
@@ -43,6 +45,26 @@ namespace Calendar_Overlay.Windows
             DateTime endDateTime = Event.StartDate.Add(Event.Duration);
             endHour.SelectedValue = endDateTime.Hour;
             endMinutes.SelectedValue = endDateTime.Minute;
+
+            if (Event.IsRepeatable)
+            {
+                repeatableCheckbox.IsChecked = true;
+            }
+            else
+            {
+                repeatableCheckbox.IsChecked = false;
+            }
+            repeatDays.SelectedValue = Event.RepeatInterval.Days;
+            repeatHours.SelectedValue = Event.RepeatInterval.Hours;
+            repeatMinutes.SelectedValue = Event.RepeatInterval.Minutes;
+        }
+
+        private void PopulateDayComboBoxes()
+        {
+            for (int i = 0; i <= 20; i++)
+            {
+                repeatDays.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
+            }
         }
 
         private void PopulateHourComboBoxes()
@@ -51,6 +73,7 @@ namespace Calendar_Overlay.Windows
             {
                 startHour.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
                 endHour.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
+                repeatHours.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
             }
         }
 
@@ -60,6 +83,7 @@ namespace Calendar_Overlay.Windows
             {
                 startMinutes.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
                 endMinutes.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
+                repeatMinutes.Items.Add(new KeyValuePair<string, int>(GetPaddedString(i), i));
             }
         }
 
@@ -69,6 +93,10 @@ namespace Calendar_Overlay.Windows
             endHour.SelectedIndex = 0;
             startMinutes.SelectedIndex = 0;
             endMinutes.SelectedIndex = 0;
+
+            repeatDays.SelectedIndex = 0;
+            repeatHours.SelectedIndex = 0;
+            repeatMinutes.SelectedIndex = 0;
         }
 
         private static string GetPaddedString(int number)
@@ -89,7 +117,9 @@ namespace Calendar_Overlay.Windows
             {
                 DateTime startingDate = start.Add(new TimeSpan((int)startHour.SelectedValue, (int)startMinutes.SelectedValue, 0));
                 TimeSpan duration = GetDuration((int)startHour.SelectedValue, (int)startMinutes.SelectedValue, (int)endHour.SelectedValue, (int)endMinutes.SelectedValue);
-                Event = new(nameTxt.Text, startingDate, duration);
+                bool isRepeatable = repeatableCheckbox.IsChecked == true ? true : false;
+                TimeSpan repeatInterval = new TimeSpan((int)repeatDays.SelectedValue, (int)repeatHours.SelectedValue, (int)repeatMinutes.SelectedValue, 0);
+                Event = new(nameTxt.Text, startingDate, duration, isRepeatable, repeatInterval);
                 GetWindow(this).DialogResult = true;
                 GetWindow(this).Close();
             }

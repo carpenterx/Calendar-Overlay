@@ -19,13 +19,26 @@ namespace Calendar_Overlay.Models
             get => _startDate;
             set => SetField(ref _startDate, value);
         }
-        //public DateTime StartDate { get; set; }
-        //public TimeSpan Duration { get; set; }
+
         private TimeSpan _duration;
         public TimeSpan Duration
         {
             get => _duration;
             set => SetField(ref _duration, value);
+        }
+
+        private bool _isRepeatable = false;
+        public bool IsRepeatable
+        {
+            get => _isRepeatable;
+            set => SetField(ref _isRepeatable, value);
+        }
+
+        private TimeSpan _repeatInterval;
+        public TimeSpan RepeatInterval
+        {
+            get => _repeatInterval;
+            set => SetField(ref _repeatInterval, value);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -57,6 +70,15 @@ namespace Calendar_Overlay.Models
             Name = name;
             StartDate = startDate;
             Duration = duration;
+        }
+
+        public Event(string name, DateTime startDate, TimeSpan duration, bool isRepeatable, TimeSpan repeatInterval)
+        {
+            Name = name;
+            StartDate = startDate;
+            Duration = duration;
+            IsRepeatable = isRepeatable;
+            RepeatInterval = repeatInterval;
         }
     }
 }
