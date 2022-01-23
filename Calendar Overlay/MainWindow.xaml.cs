@@ -115,6 +115,8 @@ namespace Calendar_Overlay
                 {
                     eventsToArchive.Add(eventWindow.Event);
                     UpdateArchive();
+                    events = new ObservableCollection<object>(currentEvents);
+                    InsertHeaders();
                 }
                 else
                 {
@@ -137,11 +139,11 @@ namespace Calendar_Overlay
                     int editedIndex = currentEvents.IndexOf(eventToEdit);
                     if (eventWindow.Event.StartDate < DateTime.Today)
                     {
+                        eventsToArchive.Add(eventWindow.Event);
+                        UpdateArchive();
                         currentEvents.RemoveAt(editedIndex);
                         events = new ObservableCollection<object>(currentEvents);
                         InsertHeaders();
-                        eventsToArchive.Add(eventWindow.Event);
-                        UpdateArchive();
                     }
                     else
                     {
@@ -211,6 +213,14 @@ namespace Calendar_Overlay
                 }
             }
 
+            foreach (Event e in eventsToArchive)
+            {
+                if(e.IsRepeatable)
+                {
+                    Event nextEvent = new(e);
+                    currentEvents.Add(nextEvent);
+                }
+            }
             archiveEvents.AddRange(eventsToArchive);
             SaveArchive(archiveEvents);
         }

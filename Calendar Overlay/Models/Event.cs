@@ -80,5 +80,14 @@ namespace Calendar_Overlay.Models
             IsRepeatable = isRepeatable;
             RepeatInterval = repeatInterval;
         }
+
+        public Event(Event e)
+        {
+            Name = e.Name;
+            StartDate = e.StartDate.Add(e.RepeatInterval);
+            Duration = e.Duration;
+            IsRepeatable = e.IsRepeatable;
+            RepeatInterval = e.RepeatInterval;
+        }
     }
 }
